@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"
+        integrity="sha512-xQBQYt9UcgblF6aCMrwU1NkVA7HCXaSN2oq0so80KO+y68M+n64FOcqgav4igHe6D5ObBLIf68DWv+gfBowczg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let tarFileInput = document.querySelector('#tarFile');
+            tarFileInput.addEventListener('change', (evt) => {
+
+                let files = evt.target.files
+                handleFile(files[0]);
+
+            })
+        })
+
+        function handleFile(f) {
+            JSZip.loadAsync(f)                                   // 1) read the Blob
+                .then(async function (zip) {
+                    zip.forEach( function (relativePath, zipEntry) {  // 2) print entries
+                        console.log(relativePath)
+                        console.log(zipEntry)
+                    });
+                    let text = await zip.file("hoge.txt").async("string")
+                    console.log(text)
+                    let jpg  = "data:image/jpg;base64," + (await zip.file("test.jpg").async("base64"))
+                    document.querySelector('img').src = jpg
+                }, function (e) {
+                    console.log('errot')
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <input id="tarFile" type="file">
+    <img src="">
+</body>
+
+</html>
