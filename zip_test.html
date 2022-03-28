@@ -6,6 +6,10 @@
         integrity="sha512-xQBQYt9UcgblF6aCMrwU1NkVA7HCXaSN2oq0so80KO+y68M+n64FOcqgav4igHe6D5ObBLIf68DWv+gfBowczg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+let contacts = new Map()
+contacts.set('Jessie', {phone: "213-555-1234", address: "123 N 1st Ave"})
+
+
         window.addEventListener('DOMContentLoaded', (event) => {
             let tarFileInput = document.querySelector('#tarFile');
             tarFileInput.addEventListener('change', (evt) => {
@@ -19,14 +23,17 @@
         function handleFile(f) {
             JSZip.loadAsync(f)                                   // 1) read the Blob
                 .then(async function (zip) {
+                    console.log(Object.prototype.toString.call(zip))
+                    console.log(zip)
+
                     zip.forEach( function (relativePath, zipEntry) {  // 2) print entries
                         console.log(relativePath)
                         console.log(zipEntry)
                     });
                     let text = await zip.file("hoge.txt").async("string")
                     console.log(text)
-                    let jpg  = "data:image/jpg;base64," + (await zip.file("test.jpg").async("base64"))
-                    document.querySelector('img').src = jpg
+                    //let jpg  = "data:image/jpg;base64," + (await zip.file("test.jpg").async("base64"))
+                    //document.querySelector('img').src = jpg
                 }, function (e) {
                     console.log('errot')
                 });

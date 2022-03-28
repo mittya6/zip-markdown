@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"
+        integrity="sha512-xQBQYt9UcgblF6aCMrwU1NkVA7HCXaSN2oq0so80KO+y68M+n64FOcqgav4igHe6D5ObBLIf68DWv+gfBowczg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+let contacts = new Map()
+contacts.set('Jessie', {phone: "213-555-1234", address: "123 N 1st Ave"})
+
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            let tarFileInput = document.querySelector('#tarFile');
+            tarFileInput.addEventListener('change', (evt) => {
+
+                let files = evt.target.files
+                handleFile(files[0]);
+
+            })
+        })
+
+        async function handleFile(f) {
+            const zip = await JSZip.loadAsync(f)
+            console.log(zip)
+            console.log(Object.prototype.toString.call(zip))
+        }
+    </script>
+</head>
+
+<body>
+    <input id="tarFile" type="file">
+    <img src="">
+</body>
+
+</html>
